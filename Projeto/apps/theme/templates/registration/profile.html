@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Perfil</h2>
+  <p>{{user.username}}</p>
+  <div class="list-group">
+    <a href="#" class="list-group-item list-group-item-action active">Leilão 1</a>
+    <a href="#" class="list-group-item list-group-item-action">Leilão 2</a>
+    <a href="#" class="list-group-item list-group-item-action">Leilão 3</a>
+    <a href="#" class="list-group-item list-group-item-action">Leilão 4</a>
+    <a href="#" class="list-group-item list-group-item-action disabled">Leilão 5</a>
+  </div>
+
+{% endblock %}
