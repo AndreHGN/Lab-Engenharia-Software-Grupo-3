@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-
+from django.contrib.auth.models import User
 
 class Lote(models.Model):
     vendedor = models.CharField(max_length=200)
