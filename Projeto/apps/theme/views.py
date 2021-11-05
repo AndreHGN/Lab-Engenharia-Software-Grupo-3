@@ -3,8 +3,13 @@ from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
+from lote.models import Leilao
+
 def home(request):
-    return render(request, "home.html")
+    leilao = Leilao.objects.all()
+    data = {}
+    data['object_list'] = leilao
+    return render(request, "home.html", data)
 
 
 def signup_view(request):

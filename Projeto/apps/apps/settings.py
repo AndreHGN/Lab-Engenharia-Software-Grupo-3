@@ -39,8 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'theme',
-    'books_fbv',
-    'books_fbv_user',
     'lote',
 ]
 
@@ -140,5 +138,5 @@ STATICFILES_DIRS = [
 ]
 #LOGIN_URL = '/accounts/login/'
 
-LOGIN_REDIRECT_URL =  '/books_fbv_user/'
+LOGIN_REDIRECT_URL =  '/'
 LOGOUT_REDIRECT_URL = '/'

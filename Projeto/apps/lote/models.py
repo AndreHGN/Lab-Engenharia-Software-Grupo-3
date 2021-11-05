@@ -30,3 +30,20 @@ class Lote(models.Model):
     
     def get_absolute_url(self):
         return reverse('lote:lote_edit', kwargs={'pk': self.pk})
+
+class Leilao(models.Model):
+    inicioLeilao = models.DateField()
+    finalLeilao = models.DateField()
+    maiorLance = models.CharField(max_length=200)
+    loteLeilao = models.CharField(max_length=200)
+    pagamentoLeilao = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.nome
+
+    def defineMaiorLance(self, novoLance):
+        if (self.maiorLance.valor < novoLance.valor):
+            self.maiorLance = novoLance
+    
+    def get_absolute_url(self):
+        return reverse('lote:lote_edit', kwargs={'pk': self.pk})

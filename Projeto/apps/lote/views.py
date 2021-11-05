@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import ModelForm
 
 from .models import Lote
+from .models import Leilao
 
 class LoteForm(ModelForm):
     class Meta:
@@ -14,7 +15,7 @@ def lote_list(request, template_name='lote/lote_list.html'):
     if request.user.is_superuser:
         lote = Lote.objects.all()
     else:
-        lote = Lote.objects.filter(user=request.user)
+        lote = Lote.objects.filter(vendedor=request.user)
     data = {}
     data['object_list'] = lote
     return render(request, template_name, data)
@@ -51,3 +52,8 @@ def lote_delete(request, pk, template_name='lote/lote_confirm_delete.html'):
         lote.delete()
         return redirect('lote:lote_list')
     return render(request, template_name, {'object':lote})
+
+def leilao_details(request, nomeLote, template_name='leilao/leilao_details.html'):
+    lote = get_object_or_404(Lote, nome=nomeLote)
+    leilao = get_object_or_404(Leilao, loteLeilao=nomeLote)
+    return render(request, template_name, {'lote':lote, 'leilao': leilao})
