@@ -2,14 +2,13 @@
 
 {% block content %}
 
-<h2>Perfil</h2>
-  <p>{{user.username}}</p>
+<h1 style="margin-left: 10px;">{{user.username}}</h1>
+<h4 style="margin-left: 10px;">Suas informações:</h4>
   <div class="list-group">
-    <a href="#" class="list-group-item list-group-item-action active">Leilão 1</a>
-    <a href="#" class="list-group-item list-group-item-action">Leilão 2</a>
-    <a href="#" class="list-group-item list-group-item-action">Leilão 3</a>
-    <a href="#" class="list-group-item list-group-item-action">Leilão 4</a>
-    <a href="#" class="list-group-item list-group-item-action disabled">Leilão 5</a>
+    <ul>
+    <li>E-mail: {% if user.email %}{{user.email}}{% else %}None{% endif %}</li>
+    <li>Criou a conta em: {{user.date_joined}}</li>
+  </ul>
   </div>
 
 {% endblock %}

@@ -6,7 +6,7 @@
 
 <ul>
     {% for lote in object_list %}
-    <li>{{ lote.nome }}  ({{ lote.descricao }})
+    <li id="{{ lote.nome }}">{{ lote.nome }}  ({{ lote.descricao }})
     <a href="{% url 'lote:lote_edit' lote.id %}">Editar</a>
     <a href="{% url 'lote:lote_delete' lote.id %}">Deletar</a>
     </li>
