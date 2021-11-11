@@ -2,12 +2,12 @@
 
 {% block content %}
 
-<h1 style="margin-left: 10px;">{{user.username}}</h1>
-<h4 style="margin-left: 10px;">Suas informações:</h4>
+<h1 style="margin-left: 5vw; margin-top: 5vh;">{{user.username}}</h1>
+<h4 style="margin-left: 5vw;">Suas informações:</h4>
   <div class="list-group">
     <ul>
-    <li>E-mail: {% if user.email %}{{user.email}}{% else %}None{% endif %}</li>
-    <li>Criou a conta em: {{user.date_joined}}</li>
+    <li style="margin-left: 5vw;">>E-mail: {% if user.email %}{{user.email}}{% else %}None{% endif %}</li>
+    <li style="margin-left: 5vw;">>Criou a conta em: {{user.date_joined}}</li>
   </ul>
   </div>
 

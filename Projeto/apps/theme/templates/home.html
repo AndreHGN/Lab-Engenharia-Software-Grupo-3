@@ -36,12 +36,16 @@
                             <!-- Product name-->
                             <h5 class="fw-bolder">{{leilao.loteLeilao}}</h5>
                             <!-- Product price-->
+                            {% if leilao.maiorLance %}
                             <span>R$ {{leilao.maiorLance}}</span>
+                            {% else %}
+                            <span>R$ {{leilao.valorMinimo}}</span>
+                            {% endif %} 
                         </div>
                     </div>
                     <!-- Product actions-->
                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'lote:leilao_details' leilao.loteLeilao %}">Detalhes</a></div>
+                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'lote:leilao_details' leilao.id %}">Detalhes</a></div>
                     </div>
                 </div>
             </div>

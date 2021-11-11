@@ -1,14 +1,18 @@
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 from lote.models import Leilao
+from lote.models import Lote
 
 def home(request):
     leilao = Leilao.objects.all()
     data = {}
-    data['object_list'] = leilao
+    data['object_list'] = []
+    for element in leilao:
+        lote = get_object_or_404(Lote, nome=element.loteLeilao)
+        data['object_list'].append({'id': element.id, 'loteLeilao':element.loteLeilao, 'maiorLance':element.maiorLance, 'valorMinimo': lote.valorMinimo})    
     return render(request, "home.html", data)
 
 

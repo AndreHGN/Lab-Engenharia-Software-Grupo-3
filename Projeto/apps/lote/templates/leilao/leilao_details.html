@@ -2,11 +2,24 @@
 
 {% block content %}
 
-<h2 id = "tcolor"><a href="{% url 'lote:lote_list' %}">Lotes do usuário</a>: Deletar?</h2>
+<h2>{{lote.nome}}</h2>
 
-<form method="post"  id = "tcolor">{% csrf_token %}
-    Tem certeza de que deseja deletar "{{ object }}" ?<br/>
-    <input type="submit" value="Delete" />
-</form>
+<p>Leilão disponível de {{leilao.inicioLeilao}} até {{leilao.finalLeilao}}</p>
 
+<h4>Informações</h4>
+<ul>
+    <li>Descrição: {{lote.descricao}}</li>
+    <li>Estado: {{lote.estado}}</li>
+    <li>Vendedor: {{lote.vendedor}}</li>
+    <li>Valor de reserva: {{lote.valorReserva}}</li>
+    <li>Valor minimo de lance: {{lote.valorMinimoLance}}</li>
+</ul>
+<p>Maior Lance:</p>
+{% if leilao.maiorLance %}
+<span>{{leilao.maiorLance}}</span>
+{% else %}
+<span>Ainda não há lances para este leilão</span>
+{% endif %}
+
+<div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'lote:create_lance' leilao.id %}">Novo Lance</a></div>
 {% endblock %}
