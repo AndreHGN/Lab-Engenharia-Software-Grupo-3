@@ -1,10 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
+<br>
+<h2 style="text-align: center; margin-top: 5vw;">
+    Registre seu lote
+</h2>
+<br>
+<div style="text-align: center;">
+    <form style="text-align: right; display: inline-block;" method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit" />
+    </form>
+</div>
 
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Submit" />
-</form>
+
 
 {% endblock %}

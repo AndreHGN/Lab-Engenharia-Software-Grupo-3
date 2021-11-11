@@ -9,7 +9,11 @@
     <li id="{{ lote.nome }}">{{ lote.nome }}  ({{ lote.descricao }})
     <a href="{% url 'lote:lote_edit' lote.id %}">Editar</a>
     <a href="{% url 'lote:lote_delete' lote.id %}">Deletar</a>
+    {% if request.user.is_superuser %}
+    <a href="{% url 'lote:create_leilao' lote.id %}">Registrar leilão</a>
+    {% endif %}
     </li>
+
     {% endfor %}
 </ul>
 
