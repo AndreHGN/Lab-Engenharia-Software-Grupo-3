@@ -1,6 +1,8 @@
 from django.db import models
+from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.contrib.auth.models import User
+from datetime import date
 
 class Lote(models.Model):
     vendedor = models.CharField(max_length=200)
@@ -14,7 +16,8 @@ class Lote(models.Model):
     finalLeilao = models.DateField(null=True)
     tipoInicial = models.IntegerField(null=True)
     tipoFinal = models.IntegerField(null=True)
-
+    confirmado = models.BooleanField(default=False)
+    
     def __str__(self):
         return self.nome
 
@@ -28,6 +31,10 @@ class Lote(models.Model):
         elif (self.valorMinimo > 50000 and self.valorMinimo <= 100000):
             self.tipoInicial = 4
     
+    def confirmar(self):
+        self.confirmado = True
+        self.save()
+    
     def get_absolute_url(self):
         return reverse('lote:lote_edit', kwargs={'pk': self.pk})
 
@@ -36,7 +43,12 @@ class Leilao(models.Model):
     finalLeilao = models.DateField()
     maiorLance = models.FloatField(null=True)
     loteLeilao = models.CharField(max_length=200)
+    vencedor = models.CharField(max_length=200,default="None")
     pagamentoLeilao = models.CharField(max_length=200)
+    liberado = models.BooleanField(default=False)
+    finalizado = models.BooleanField(default=False)
+    confirmaPagamento = models.BooleanField(default=False)
+    cancelar = models.BooleanField(default=False)
 
     def __str__(self):
         return self.nome
@@ -50,6 +62,27 @@ class Leilao(models.Model):
             self.maiorLance = novoLance
             self.save()
     
+    def liberar(self):
+        hoje = date.today()
+        lote = get_object_or_404(Lote, nome=self.loteLeilao)
+        if (lote.confirmado and hoje >= self.inicioLeilao and hoje <= self.finalLeilao):
+            self.liberado = True
+            self.save()
+    
+    def finalizar(self):
+        hoje = date.today()
+        if (hoje > self.finalLeilao):
+            self.finalizado = True
+            self.save()
+    
+    def solicitarCancelamento(self):
+        lote = get_object_or_404(Lote, nome=self.loteLeilao)
+        if (lote.confirmado and not self.finalizado and not self.liberado):
+            self.cancelar = True
+            self.save()
+        elif (not lote.confirmado):
+            self.delete()
+
     def get_absolute_url(self):
         return reverse('lote:lote_edit', kwargs={'pk': self.pk})
 
@@ -64,19 +97,21 @@ class Lance(models.Model):
 class Pagamento(models.Model):
     valor = models.FloatField()
     efetuador = models.CharField(max_length=200)
-    taxaDeComissao = models.FloatField(default=None)
-    
+    lote = models.IntegerField(default=None)
 
     def __str__(self):
         return self.nome
 
-    def defineTaxa(self):
+    def defineTaxaInicial(self):
         if(self.valor <= 1000):
-            self.taxaDeComissão = 0.01
+            taxa = 0.01
         if(self.valor > 1000 and self.valor <= 10000):
-            self.taxaDeComissão = 0.02
+            taxa = 0.02
         if(self.valor > 10000 and self.valor <= 50000):
-            self.taxaDeComissão = 0.03
+            taxa = 0.03
         if(self.valor > 50000 and self.valor <= 100000):
-            self.taxaDeComissão = 0.04
+            taxa = 0.04
+        self.valor = self.valor*taxa
+        self.save()
+
     
