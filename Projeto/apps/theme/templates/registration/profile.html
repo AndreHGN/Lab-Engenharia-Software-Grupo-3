@@ -1,14 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<h1 style="margin-left: 5vw; margin-top: 5vh;">{{user.username}}</h1>
-<h4 style="margin-left: 5vw;">Suas informações:</h4>
+<div class="container mx-auto mt-4">
+<h1 style="margin-top: 5vh;">{{user.username}}</h1>
+<h4>Suas informações:</h4>
   <div class="list-group">
     <ul>
-    <li style="margin-left: 5vw;">>E-mail: {% if user.email %}{{user.email}}{% else %}None{% endif %}</li>
-    <li style="margin-left: 5vw;">>Criou a conta em: {{user.date_joined}}</li>
+    <li>>E-mail: {% if user.email %}{{user.email}}{% else %}None{% endif %}</li>
+    <li>>Criou a conta em: {{user.date_joined}}</li>
   </ul>
   </div>
 
+  <h4>Seus leilões:</h4>
+  <ul>
+    {% for leilao in leilao_list %}
+      <li>{{leilao.loteLeilao}}</li>
+      <button class="btn btn-outline-dark mt-auto" {% if leilao.liberado or leilao.finalizado %}disabled{% endif %}><a style="text-decoration: none; color: black;" href="{% url 'profile' %}" onclick={{leilao.solicitarCancelamento}}>Solicitar Cancelamento</a></button>
+    {% endfor %}
+  </ul>
+</div>
 {% endblock %}

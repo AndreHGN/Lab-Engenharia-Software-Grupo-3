@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Confirmar pagamento da comissão referente ao Lote {{lote.id}} - {{lote.nome}}</h2>
+
+<ul>
+    <li>Valor mínimo do lote: {{lote.valorMinimo}}</li>
+    <li>Valor do pagamento: {{pagamento.valor}}</li> <br>
+    <li>Efetuador: {{pagamento.efetuador}}</li>
+</ul>
+
+<a class="btn btn-outline-dark mt-auto" onclick={{lote.confirmar}} href="{% url 'lote:lote_list' %}">
+    Confirmar pagamento
+</a>
+
+{% endblock %}

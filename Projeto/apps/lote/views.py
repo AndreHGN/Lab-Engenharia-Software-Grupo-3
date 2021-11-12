@@ -5,6 +5,7 @@ from django.forms import ModelForm
 from .models import Lote
 from .models import Leilao
 from .models import Lance
+from .models import Pagamento
 
 class LoteFormVendedor(ModelForm):
     class Meta:
@@ -67,6 +68,11 @@ def lote_delete(request, pk, template_name='lote/lote_confirm_delete.html'):
         return redirect('lote:lote_list')
     return render(request, template_name, {'object':lote})
 
+@login_required
+def lote_details(request, pk, template_name='lote/lote_details.html'):
+    lote = get_object_or_404(Lote, pk=pk)
+    return render(request, template_name, {'object':lote})
+
 def leilao_details(request, pk, template_name='leilao/leilao_details.html'):
     leilao = get_object_or_404(Leilao, pk=pk)
     lote = get_object_or_404(Lote, nome=leilao.loteLeilao)
@@ -79,6 +85,8 @@ def create_leilao(request, pk, template_name='leilao/create_leilao.html'):
     if form.is_valid():
         form.save()
         leilao = Leilao.objects.create(inicioLeilao = lote.inicioLeilao, finalLeilao = lote.finalLeilao, loteLeilao = lote.nome)
+        pagamento = Pagamento.objects.create(valor=lote.valorMinimo, efetuador=lote.vendedor, lote=lote.id)
+        pagamento.defineTaxaInicial()
         return redirect('lote:lote_list')
     return render(request, template_name, {'form':form})
 
@@ -101,3 +109,9 @@ def create_lance(request, pk, template_name='lance/create_lance.html'):
                 leilao.defineMaiorLance(lance.valor)
         return redirect('lote:leilao_details', pk=pk)
     return render(request, template_name, {'form':form})
+
+@user_passes_test(lambda u: u.is_superuser)
+def verify_pagamento(request, pk, template_name='leilao/verify_pagamento.html'):
+    pagamento = get_object_or_404(Pagamento, lote=pk)
+    lote = get_object_or_404(Lote, pk=pk)
+    return render(request, template_name, {'pagamento':pagamento, 'lote':lote})

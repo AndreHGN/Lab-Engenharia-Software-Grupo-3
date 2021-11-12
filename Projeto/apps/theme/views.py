@@ -11,8 +11,9 @@ def home(request):
     data = {}
     data['object_list'] = []
     for element in leilao:
+        element.liberar()
         lote = get_object_or_404(Lote, nome=element.loteLeilao)
-        data['object_list'].append({'id': element.id, 'loteLeilao':element.loteLeilao, 'maiorLance':element.maiorLance, 'valorMinimo': lote.valorMinimo})    
+        data['object_list'].append({'id': element.id, 'loteLeilao':element.loteLeilao, 'maiorLance':element.maiorLance, 'valorMinimo': lote.valorMinimo, 'liberado':element.liberado})    
     return render(request, "home.html", data)
 
 
@@ -30,4 +31,11 @@ def signup_view(request):
 @login_required
 def profile(request):
     user = request.user
-    return render(request, 'registration/profile.html', {'user':user})
+    if request.user.is_superuser:
+        leilao = Leilao.objects.all()
+    else:
+        leilao = Leilao.objects.filter(vendedor=request.user)
+    data = {}
+    data['leilao_list'] = leilao
+    data['user'] = user
+    return render(request, 'registration/profile.html', data)
