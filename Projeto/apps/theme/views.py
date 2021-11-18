@@ -31,10 +31,13 @@ def signup_view(request):
 @login_required
 def profile(request):
     user = request.user
+    leilao = []
     if request.user.is_superuser:
         leilao = Leilao.objects.all()
     else:
-        leilao = Leilao.objects.filter(vendedor=request.user)
+        lotes = Lote.objects.filter(vendedor=request.user)
+        for lote in lotes:
+            leilao.append(Leilao.objects.filter(loteLeilao=lote.nome)[0])
     data = {}
     data['leilao_list'] = leilao
     data['user'] = user

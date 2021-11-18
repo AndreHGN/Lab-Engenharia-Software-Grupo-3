@@ -14,9 +14,52 @@
   <h4>Seus leilões:</h4>
   <ul>
     {% for leilao in leilao_list %}
-      <li>{{leilao.loteLeilao}}</li>
-      <button class="btn btn-outline-dark mt-auto" {% if leilao.liberado or leilao.finalizado %}disabled{% endif %}><a style="text-decoration: none; color: black;" href="{% url 'profile' %}" onclick={{leilao.solicitarCancelamento}}>Solicitar Cancelamento</a></button>
+      <li>{{leilao.loteLeilao}}
+        (
+          {% if leilao.finalizado %}
+            FINALIZADO
+          {% elif leilao.liberado %}
+            ABERTO
+          {% else %}
+            EM ESPERA
+          {% endif %}
+        )
+      </li>
+      <button class="btn btn-outline-dark mt-auto" {% if leilao.liberado or leilao.finalizado %}disabled{% endif %}><a style="text-decoration: none; color: black;" href="{% url 'lote:leilao_cancel' leilao.id %}">Solicitar Cancelamento</a></button>
     {% endfor %}
   </ul>
+  <br>
+  {% if request.user.is_superuser %}
+  <h4>Solicitações de Cancelamento:</h4>
+  <ul>
+    {% for leilao in leilao_list %}
+      {% if leilao.cancelar %}
+        <li>{{leilao.loteLeilao}}
+          (
+            {% if leilao.finalizado %}
+              FINALIZADO
+            {% elif leilao.liberado %}
+              ABERTO
+            {% else %}
+              EM ESPERA
+            {% endif %}
+          )
+        </li>
+        <button class="btn btn-outline-dark mt-auto" {% if leilao.liberado or leilao.finalizado %}disabled{% endif %}><a style="text-decoration: none; color: black;" href="{% url 'lote:leilao_delete' leilao.id %}">Autorizar Cancelamento</a></button>
+        <button class="btn btn-outline-dark mt-auto" {% if leilao.liberado or leilao.finalizado %}disabled{% endif %}><a style="text-decoration: none; color: black;" href="{% url 'lote:leilao_reject' leilao.id %}" >Rejeitar Cancelamento</a></button>
+      {% endif %}
+    {% endfor %}
+  </ul>
+  <br>
+  <h4>Leilões Finalizados:</h4>
+  <ul>
+    {% for leilao in leilao_list %}
+      {% if leilao.finalizado and not leilao.confirmaPagamento %}
+        <li>{{leilao.loteLeilao}}</li>
+        <button class="btn btn-outline-dark mt-auto"><a style="text-decoration: none; color: black;" href="{% url 'lote:confirm_pagamento' leilao.id %}">Confirmar Pagamento</a></button>
+      {% endif %}
+    {% endfor %}
+  </ul>
+  {% endif %}
 </div>
 {% endblock %}

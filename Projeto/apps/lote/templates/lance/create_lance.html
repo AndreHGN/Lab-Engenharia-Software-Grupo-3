@@ -6,6 +6,8 @@
     Entre com o lance:
 </h2>
 <br>
+<p style="text-align: center;">Lance atual: {{atual}}</p>
+<p style="text-align: center;">Valor mínimo do lance: {{minimo}}</p>
 <form style="text-align: center; margin-right: 40vw; text-align: right" method="post">{% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Submit" />

@@ -2,10 +2,10 @@
 
 {% block content %}
 
-<h2>Confirmar pagamento da comissão referente ao Lote {{lote.id}} - {{lote.nome}}</h2>
+<h2>Confirmar pagamento da taxa de compra referente ao Leilao {{leilao.id}} - {{leilao.loteLeilao}}</h2>
 
 <ul>
-    <li>Valor mínimo do lote: {{lote.valorMinimo}}</li>
+    <li>Valor do lance vencedor: {{leilao.maiorLance}}</li>
     <li>Valor do pagamento: {{pagamento.valor}}</li> <br>
     <li>Efetuador: {{pagamento.efetuador}}</li>
 </ul>
