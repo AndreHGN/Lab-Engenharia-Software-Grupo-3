@@ -4,7 +4,15 @@
 
 <h2>{{lote.nome}}</h2>
 
-<p>Leilão disponível de {{leilao.inicioLeilao}} até {{leilao.finalLeilao}}</p>
+<p>Período do leilão: {{leilao.inicioLeilao}} até {{leilao.finalLeilao}}</p>
+
+{% if leilao.finalizado %}
+    <p>Leilão finalizado.</p>
+{% elif leilao.liberado %}
+    <p>Leilão aberto.</p>
+{% else %}
+    <p>Leilão em espera.</p>
+{% endif %}
 
 <h4>Informações</h4>
 <ul>
@@ -22,4 +30,7 @@
 {% endif %}
 
 <div class="text-center"><button class="btn btn-outline-dark mt-auto" {% if not leilao.liberado %}disabled{% endif %}><a style="text-decoration: none; color: black;" href="{% url 'lote:create_lance' leilao.id %}" >Novo Lance</a></button></div>
+{% if request.user.is_superuser %}
+<button class="btn btn-outline-dark mt-auto"><a style="text-decoration: none; color: black;" href="{% url 'lote:leilao_finalize' leilao.id %}">Finalizar Leilão</a></button>
+{% endif %}
 {% endblock %}

@@ -30,6 +30,16 @@ class Lote(models.Model):
             self.tipoInicial = 3
         elif (self.valorMinimo > 50000 and self.valorMinimo <= 100000):
             self.tipoInicial = 4
+
+    def defineTipoFinal(self, valorLance):
+        if (valorLance <= 1000):
+            self.tipoFinal = 1
+        elif (valorLance > 1000 and valorLance <= 10000):
+            self.tipoFinal = 2
+        elif (valorLance > 10000 and valorLance <= 50000):
+            self.tipoFinal = 3
+        elif (valorLance > 50000 and valorLance <= 100000):
+            self.tipoFinal = 4
     
     def confirmar(self):
         self.confirmado = True
@@ -51,7 +61,7 @@ class Leilao(models.Model):
     cancelar = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.nome
+        return self.loteLeilao
 
     def defineMaiorLance(self, novoLance):
         if(self.maiorLance):
@@ -69,11 +79,22 @@ class Leilao(models.Model):
             self.liberado = True
             self.save()
     
-    def finalizar(self):
+    def finalizar(self, manual):
         hoje = date.today()
-        if (hoje > self.finalLeilao):
+        if (manual or (hoje > self.finalLeilao and self.finalizado==False)):
+            lance = get_object_or_404(Lance, valor=self.maiorLance, leilao=self.id)
+            lote = get_object_or_404(Lote, nome=self.loteLeilao)
+            lote.defineTipoFinal(lance.valor)
+            lote.save()
+            pagamento = Pagamento.objects.create(valor=lance.valor, efetuador=lance.comprador, leilao=self.id)
+            pagamento.defineTaxaFinal()
             self.finalizado = True
+            self.vencedor = lance.comprador
             self.save()
+            
+    def rejeitar(self):
+        self.cancelar = False
+        self.save()
     
     def solicitarCancelamento(self):
         lote = get_object_or_404(Lote, nome=self.loteLeilao)
@@ -92,15 +113,16 @@ class Lance(models.Model):
     leilao =  models.IntegerField()
 
     def __str__(self):
-        return self.nome
+        return self.comprador
 
 class Pagamento(models.Model):
     valor = models.FloatField()
     efetuador = models.CharField(max_length=200)
-    lote = models.IntegerField(default=None)
+    lote = models.IntegerField(null=True, default=None)
+    leilao = models.IntegerField(null=True, default=None)
 
     def __str__(self):
-        return self.nome
+        return self.efetuador
 
     def defineTaxaInicial(self):
         if(self.valor <= 1000):
@@ -114,4 +136,14 @@ class Pagamento(models.Model):
         self.valor = self.valor*taxa
         self.save()
 
-    
+    def defineTaxaFinal(self):
+        if(self.valor <= 1000):
+            taxa = 0.03
+        if(self.valor > 1000 and self.valor <= 10000):
+            taxa = 0.04
+        if(self.valor > 10000 and self.valor <= 50000):
+            taxa = 0.05
+        if(self.valor > 50000 and self.valor <= 100000):
+            taxa = 0.06
+        self.valor += self.valor*taxa
+        self.save()
