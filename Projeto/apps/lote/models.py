@@ -17,6 +17,7 @@ class Lote(models.Model):
     tipoInicial = models.IntegerField(null=True)
     tipoFinal = models.IntegerField(null=True)
     confirmado = models.BooleanField(default=False)
+    pendente = models.BooleanField(default=False)
     
     def __str__(self):
         return self.nome
@@ -82,15 +83,24 @@ class Leilao(models.Model):
     def finalizar(self, manual):
         hoje = date.today()
         if (manual or (hoje > self.finalLeilao and self.finalizado==False)):
-            lance = get_object_or_404(Lance, valor=self.maiorLance, leilao=self.id)
             lote = get_object_or_404(Lote, nome=self.loteLeilao)
-            lote.defineTipoFinal(lance.valor)
-            lote.save()
-            pagamento = Pagamento.objects.create(valor=lance.valor, efetuador=lance.comprador, leilao=self.id)
-            pagamento.defineTaxaFinal()
-            self.finalizado = True
-            self.vencedor = lance.comprador
-            self.save()
+            if (self.maiorLance > lote.valorReserva):
+                lance = get_object_or_404(Lance, valor=self.maiorLance, leilao=self.id)
+                lote.defineTipoFinal(lance.valor)
+                lote.save()
+                pagamento = Pagamento.objects.create(valor=lance.valor, efetuador=lance.comprador, leilao=self.id)
+                pagamento.defineTaxaFinal()
+                self.finalizado = True
+                self.vencedor = lance.comprador
+                self.save()
+            else:
+                lote.pendente = True
+                lote.valorMinimoLance = None
+                lote.save()
+                lances = Lance.objects.filter(leilao=self.id)
+                for lance in lances:
+                    lance.delete()
+                self.delete()
             
     def rejeitar(self):
         self.cancelar = False

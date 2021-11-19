@@ -40,10 +40,11 @@ INSTALLED_APPS = [
     'django_crontab',
     'theme',
     'lote',
+    'relatorio',
 ]
 
 CRONJOBS = [
-    ('*/5 * * * *', 'lote.cron')
+    ('*/5 * * * *', 'lote.cron.verificarFinalizacao')
 ]
 
 MIDDLEWARE = [

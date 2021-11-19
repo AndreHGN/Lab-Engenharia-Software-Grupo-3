@@ -15,7 +15,7 @@
             {% if not lote.confirmado %}
                 <a href="{% url 'lote:verify_pagamento' lote.id %}">Confirmar Pagamento</a>
             {% endif %}
-        {% else %}
+        {% elif not lote.pendente %}
         <a class="btn btn-outline-dark" href="{% url 'lote:create_leilao' lote.id %}">Registrar leilão</a>
         {% endif %}
     {% endif %}

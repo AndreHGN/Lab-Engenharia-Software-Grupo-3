@@ -61,7 +61,7 @@ def lote_create(request, template_name='lote/lote_form.html'):
         lote.defineTipoInicial()
         lote.tipoFinal = 0
         lote.save()
-        return redirect('lote:lote_list')
+        return redirect('lote:lote_details', pk=lote.id)
     return render(request, template_name, {'form':form})
 
 @login_required
@@ -74,8 +74,9 @@ def lote_update(request, pk, template_name='lote/lote_form.html'):
         form = LoteFormVendedor(request.POST or None, instance=lote)
     if form.is_valid():
         lote.defineTipoInicial()
+        lote.pendente = False
         form.save()
-        return redirect('lote:lote_list')
+        return redirect('lote:lote_details', pk=lote.id)
     return render(request, template_name, {'form':form})
 
 @login_required

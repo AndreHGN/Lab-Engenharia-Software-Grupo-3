@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+<div class="container mx-auto mt-4">
 <h2>{{lote.nome}}</h2>
 
 <p>Período do leilão: {{leilao.inicioLeilao}} até {{leilao.finalLeilao}}</p>
@@ -19,7 +19,6 @@
     <li>Descrição: {{lote.descricao}}</li>
     <li>Estado: {{lote.estado}}</li>
     <li>Vendedor: {{lote.vendedor}}</li>
-    <li>Valor de reserva: {{lote.valorReserva}}</li>
     <li>Valor minimo de lance: {{lote.valorMinimoLance}}</li>
 </ul>
 <p>Maior Lance:</p>
@@ -33,4 +32,6 @@
 {% if request.user.is_superuser %}
 <button class="btn btn-outline-dark mt-auto"><a style="text-decoration: none; color: black;" href="{% url 'lote:leilao_finalize' leilao.id %}">Finalizar Leilão</a></button>
 {% endif %}
+
+</div>
 {% endblock %}
