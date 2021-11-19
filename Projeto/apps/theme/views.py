@@ -13,7 +13,7 @@ def home(request):
     for element in leilao:
         element.liberar()
         lote = get_object_or_404(Lote, nome=element.loteLeilao)
-        data['object_list'].append({'id': element.id, 'loteLeilao':element.loteLeilao, 'maiorLance':element.maiorLance, 'valorMinimo': lote.valorMinimo, 'liberado':element.liberado})    
+        data['object_list'].append({'id': element.id, 'loteLeilao':element.loteLeilao, 'maiorLance':element.maiorLance, 'valorMinimo': lote.valorMinimo, 'liberado':element.liberado, 'finalizado': element.finalizado})    
     return render(request, "home.html", data)
 
 

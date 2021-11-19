@@ -6,10 +6,14 @@
 <h4>Suas informações:</h4>
   <div class="list-group">
     <ul>
-    <li>>E-mail: {% if user.email %}{{user.email}}{% else %}None{% endif %}</li>
-    <li>>Criou a conta em: {{user.date_joined}}</li>
-  </ul>
+      <li>>E-mail: {% if user.email %}{{user.email}}{% else %}None{% endif %}</li>
+      <li>>Criou a conta em: {{user.date_joined}}</li>
+    </ul>
   </div>
+
+  {% if request.user.is_superuser %}
+    <button class="btn btn-outline-dark mt-auto"><a style="text-decoration: none; color: black; margin-top: 20px; margin-bottom: 20px;" href="{% url 'relatorio:relatorio_interface' %}">Relatórios</a></button> 
+  {% endif %}
 
   <h4>Seus leilões:</h4>
   <ul>

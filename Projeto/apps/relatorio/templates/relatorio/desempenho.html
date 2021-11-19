@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto mt-4">
+    <div style="display: inline-block; text-align: left;">
+        <h2>Relatório de Desempenho</h2>
+        <br>
+        <p>Usuários Novos: {{users}}</p>
+        <p>Leilões Iniciados: {{iniciados}}</p>
+        <p>Leilões em Aberto: {{abertos}}</p>
+        <p>Leilões Finalizados: {{finalizados}}</p>
+    </div>
+</div>
+{% endblock %}

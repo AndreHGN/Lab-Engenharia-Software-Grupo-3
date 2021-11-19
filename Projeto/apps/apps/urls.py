@@ -6,6 +6,7 @@ import theme.views
 urlpatterns = [
     path('', theme.views.home),
     path('lote/', include('lote.urls')),
+    path('relatorio/', include('relatorio.urls')),
     path('signup/', theme.views.signup_view, name='signup'),
     path('profile/', theme.views.profile, name='profile'),
 
