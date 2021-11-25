@@ -37,14 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_crontab',
     'theme',
     'lote',
     'relatorio',
-]
-
-CRONJOBS = [
-    ('*/5 * * * *', 'lote.cron.verificarFinalizacao')
 ]
 
 MIDDLEWARE = [

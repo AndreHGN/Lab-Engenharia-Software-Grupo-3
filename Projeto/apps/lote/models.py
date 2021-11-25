@@ -6,10 +6,10 @@ from datetime import date
 
 class Lote(models.Model):
     vendedor = models.CharField(max_length=200)
-    nome = models.CharField(max_length=200)
+    nome = models.CharField(max_length=200, unique=True)
     descricao = models.CharField(max_length=200)
     estado = models.CharField(max_length=100)
-    valorMinimo = models.FloatField()
+    valorMinimo = models.FloatField(null=True)
     valorReserva = models.FloatField()
     valorMinimoLance = models.FloatField(null=True)
     inicioLeilao = models.DateField(null=True)
@@ -127,6 +127,7 @@ class Lance(models.Model):
 
 class Pagamento(models.Model):
     valor = models.FloatField()
+    dataDeConfirmacao = models.DateField(null=True)
     efetuador = models.CharField(max_length=200)
     lote = models.IntegerField(null=True, default=None)
     leilao = models.IntegerField(null=True, default=None)

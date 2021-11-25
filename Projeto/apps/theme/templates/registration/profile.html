@@ -16,22 +16,30 @@
   {% endif %}
 
   <h4>Seus leilões:</h4>
-  <ul>
-    {% for leilao in leilao_list %}
-      <li>{{leilao.loteLeilao}}
-        (
-          {% if leilao.finalizado %}
-            FINALIZADO
-          {% elif leilao.liberado %}
-            ABERTO
-          {% else %}
-            EM ESPERA
-          {% endif %}
-        )
-      </li>
-      <button class="btn btn-outline-dark mt-auto" {% if leilao.liberado or leilao.finalizado %}disabled{% endif %}><a style="text-decoration: none; color: black;" href="{% url 'lote:leilao_cancel' leilao.id %}">Solicitar Cancelamento</a></button>
-    {% endfor %}
-  </ul>
+  {% if leilao_list %}
+    <ul>
+      {% for leilao in leilao_list %}
+        <li>{{leilao.loteLeilao}}
+          (
+            {% if leilao.finalizado %}
+              FINALIZADO
+            {% elif leilao.liberado %}
+              ABERTO
+            {% else %}
+              EM ESPERA
+            {% endif %}
+          )
+        </li>
+        {% if leilao.cancelar %}
+        <button class="btn btn-outline-dark mt-auto" disabled >Solicitação de cancelamento enviada</button>
+        {% else %}
+          <button class="btn btn-outline-dark mt-auto" {% if leilao.liberado or leilao.finalizado %}disabled{% endif %}><a style="text-decoration: none; color: black;" href="{% url 'lote:leilao_cancel' leilao.id %}">Solicitar Cancelamento</a></button>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  {% else %}
+  <p>Você não possui nenhum leilão.</p>
+  {% endif %}
   <br>
   {% if request.user.is_superuser %}
   <h4>Solicitações de Cancelamento:</h4>

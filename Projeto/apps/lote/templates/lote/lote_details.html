@@ -8,14 +8,14 @@
     <li>Nome: {{object.nome}}</li>
     <li>Descrição: {{object.descricao}}</li>
     <li>Estado: {{object.estado}}</li>
-    <li>Valor mínimo: {{object.valorMinimo}}</li>
     <li>Valor de reserva: {{object.valorReserva}}</li>
-    <li>Tipo do lote: {{object.tipoInicial}}</li>
     {% if object.valorMinimoLance %}
+        <li>Valor mínimo: {{object.valorMinimo}}</li>
         <li>Valor Mínimo por Lance: {{object.valorMinimo}}</li>
         <li>Início do Leilão: {{object.inicioLeilao}}</li>
         <li>Fim do leilao: {{object.finalLeilao}}</li>
     {% else %}
+        <li>Valor mínimo: ainda não definido</li>
         <li>Valor Mínimo por Lance: ainda não definido</li>
         <li>Início do Leilão: ainda não definido</li>
         <li>Fim do leilao: ainda não definido</li>

@@ -2,6 +2,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
 
 from lote.models import Leilao
 from lote.models import Lote
@@ -37,7 +38,10 @@ def profile(request):
     else:
         lotes = Lote.objects.filter(vendedor=request.user)
         for lote in lotes:
-            leilao.append(Leilao.objects.filter(loteLeilao=lote.nome)[0])
+            try:
+                leilao.append(get_object_or_404(Leilao, loteLeilao = lote.nome))
+            except(Http404):
+                pass
     data = {}
     data['leilao_list'] = leilao
     data['user'] = user

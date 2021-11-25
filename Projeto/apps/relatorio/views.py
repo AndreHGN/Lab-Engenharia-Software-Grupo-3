@@ -43,11 +43,17 @@ def relatorio_desempenho(request, dataInicial, dataFinal, template_name='relator
 
 @user_passes_test(lambda u: u.is_superuser)
 def relatorio_faturamento(request,  dataInicial, dataFinal, template_name='relatorio/faturamento.html'):
-    leiloesFechados = Leilao.objects.filter(finalLeilao__gt = dataInicial, finalLeilao__lt = dataFinal, confirmaPagamento = True)
+    pagamentos = Pagamento.objects.filter(dataDeConfirmacao__gte = dataInicial, dataDeConfirmacao__lte = dataFinal)
     totalArrecadado = 0.00
-    for leilao in leiloesFechados:
-        lote = get_object_or_404(Lote, nome=leilao.loteLeilao)
-        totalArrecadado += get_object_or_404(Pagamento,lote=lote.id).valor
-        totalArrecadado += get_object_or_404(Pagamento,leilao=leilao.id).valor - leilao.maiorLance
+    labels = []
+    economySeries = []
 
-    return render(request, template_name, {'TotalArrecadado':totalArrecadado})
+    for pagamento in pagamentos:
+        labels.append(str(pagamento.dataDeConfirmacao))
+        totalArrecadado += pagamento.valor
+        economySeries.append(totalArrecadado)
+
+    data = economySeries
+
+
+    return render(request, template_name, {'TotalArrecadado':totalArrecadado, 'labels': labels, 'data': data, "data_inicial": dataInicial, "data_final": dataFinal})
