@@ -18,6 +18,8 @@ class LoteFormVendedor(ModelForm):
         valorReserva = self.cleaned_data['valorReserva']
         if valorReserva == 0:
             raise forms.ValidationError("Valor de reserva não pode ser zero.")
+        elif valorReserva < 0:
+            raise forms.ValidationError("Valor de reserva não pode ser negativo.")
         return valorReserva
 
 class LoteFormLeiloeiro(ModelForm):
@@ -29,12 +31,16 @@ class LoteFormLeiloeiro(ModelForm):
         valorMinimo = self.cleaned_data['valorMinimo']
         if valorMinimo == 0:
             raise forms.ValidationError("Valor mínimo do lote não pode ser zero.")
+        elif valorMinimo < 0:
+            raise forms.ValidationError("Valor mínimo do lote não pode ser negativo.")
         return valorMinimo
 
     def clean_valorMinimoLance(self):
         valorMinimoLance = self.cleaned_data['valorMinimoLance']
         if valorMinimoLance == 0:
             raise forms.ValidationError("Valor mínimo por lance não pode ser zero.")
+        elif valorMinimoLance < 0:
+            raise forms.ValidationError("Valor mínimo por lance não pode ser negativo.")
         return valorMinimoLance
 
     def clean_finalLeilao(self):
@@ -53,18 +59,24 @@ class LoteFormUpdateLeiloeiro(ModelForm):
         valorReserva = self.cleaned_data['valorReserva']
         if valorReserva == 0:
             raise forms.ValidationError("Valor de reserva não pode ser zero.")
+        elif valorReserva < 0:
+            raise forms.ValidationError("Valor de reserva não pode ser negativo.")
         return valorReserva
 
     def clean_valorMinimo(self):
         valorMinimo = self.cleaned_data['valorMinimo']
         if valorMinimo == 0:
             raise forms.ValidationError("Valor mínimo do lote não pode ser zero.")
+        elif valorMinimo < 0:
+            raise forms.ValidationError("Valor mínimo do lote não pode ser negativo.")
         return valorMinimo
 
     def clean_valorMinimoLance(self):
         valorMinimoLance = self.cleaned_data['valorMinimoLance']
         if valorMinimoLance == 0:
             raise forms.ValidationError("Valor mínimo por lance não pode ser zero.")
+        elif valorMinimoLance < 0:
+            raise forms.ValidationError("Valor mínimo por lance não pode ser negativo.")
         return valorMinimoLance
 
     def clean_finalLeilao(self):
