@@ -19,7 +19,7 @@ def home(request):
 
 
 def signup_view(request):
-    form = UserCreationForm(request.POST)
+    form = UserCreationForm(request.POST or None)
     if form.is_valid():
         form.save()
         username = form.cleaned_data.get('username')
