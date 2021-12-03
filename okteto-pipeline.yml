@@ -1,5 +1,5 @@
 deploy:  
-  - okteto build -t okteto.dev/backend:${OKTETO_GIT_COMMIT} backend
+  - okteto build -t okteto.dev/nginx:${OKTETO_GIT_COMMIT} nginx
   - okteto stack deploy -f Projeto/apps/docker-compose.yml --wait
   
 devs:  
