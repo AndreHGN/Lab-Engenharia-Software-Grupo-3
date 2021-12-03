@@ -16,7 +16,7 @@ services: # the different images that will be running as containers
     command: sh -c "python manage.py makemigrations &&
                     python manage.py migrate &&
                     python manage.py createsuperuser --no-input &&
-                    gunicorn locallibrary.wsgi:application --bind 0.0.0.0:8000" # Django commands to run app using gunicorn
+                    gunicorn apps.wsgi:application --bind 0.0.0.0:8000" # Django commands to run app using gunicorn
     volumes:
       - .:/microservice # map data and files from parent directory in host to microservice directory in docker container
       - static_volume:/home/app/microservice/static
@@ -24,7 +24,7 @@ services: # the different images that will be running as containers
     #  - .env # name of the env file
     environment:
       - DJANGO_SUPERUSER_PASSWORD=1234qwer!
-      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_USERNAME=admin2
       - DJANGO_SUPERUSER_EMAIL=test@gmail.com
 
     image: microservice_app # name of the image
