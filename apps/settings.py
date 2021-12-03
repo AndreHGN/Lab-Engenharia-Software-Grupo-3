@@ -83,13 +83,15 @@ WSGI_APPLICATION = 'apps.wsgi.application'
 #    }
 #}
 
+# OBS: mudar o 'HOST' se for rodar localmente
 DATABASES = {
  'default': {
  'ENGINE': 'django.db.backends.mysql',
  'NAME': 'Lote',
  'USER': 'admin',
  'PASSWORD': 'pass',
- 'HOST': 'localhost',
+ #'HOST': 'localhost', 
+ 'HOST': 'db',
  'PORT': '3306',
  }
  } 
