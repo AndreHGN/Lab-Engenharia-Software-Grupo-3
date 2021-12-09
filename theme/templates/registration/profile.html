@@ -4,10 +4,10 @@
 <div class="container mx-auto mt-4">
 <h1 style="margin-top: 5vh;">{{user.username}}</h1>
 <h4>Suas informações:</h4>
-  <div class="list-group">
-    <ul>
-      <li>>E-mail: {% if user.email %}{{user.email}}{% else %}None{% endif %}</li>
-      <li>>Criou a conta em: {{user.date_joined}}</li>
+  <div>
+    <ul class="list-group">
+      <li class="list-group-item">>E-mail: {% if user.email %}{{user.email}}{% else %}None{% endif %}</li>
+      <li class="list-group-item">>Criou a conta em: {{user.date_joined}}</li>
     </ul>
   </div>
 
@@ -17,9 +17,9 @@
 
   <h4>Seus leilões:</h4>
   {% if leilao_list %}
-    <ul>
+    <ul class="list-group">
       {% for leilao in leilao_list %}
-        <li>{{leilao.loteLeilao}}
+        <li class="list-group-item">{{leilao.loteLeilao}}
           (
             {% if leilao.finalizado %}
               FINALIZADO
@@ -29,7 +29,7 @@
               EM ESPERA
             {% endif %}
           )
-        </li>
+        </li class="list-group-item">
         {% if leilao.cancelar %}
         <button class="btn btn-outline-dark mt-auto" disabled >Solicitação de cancelamento enviada</button>
         {% else %}
@@ -43,10 +43,10 @@
   <br>
   {% if request.user.is_superuser %}
   <h4>Solicitações de Cancelamento:</h4>
-  <ul>
+  <ul class="list-group">
     {% for leilao in leilao_list %}
       {% if leilao.cancelar %}
-        <li>{{leilao.loteLeilao}}
+        <li class="list-group-item">{{leilao.loteLeilao}}
           (
             {% if leilao.finalizado %}
               FINALIZADO
@@ -56,7 +56,7 @@
               EM ESPERA
             {% endif %}
           )
-        </li>
+        </li class="list-group-item">
         <button class="btn btn-outline-dark mt-auto" {% if leilao.liberado or leilao.finalizado %}disabled{% endif %}><a style="text-decoration: none; color: black;" href="{% url 'lote:leilao_delete' leilao.id %}">Autorizar Cancelamento</a></button>
         <button class="btn btn-outline-dark mt-auto" {% if leilao.liberado or leilao.finalizado %}disabled{% endif %}><a style="text-decoration: none; color: black;" href="{% url 'lote:leilao_reject' leilao.id %}" >Rejeitar Cancelamento</a></button>
       {% endif %}
@@ -64,10 +64,10 @@
   </ul>
   <br>
   <h4>Leilões Finalizados:</h4>
-  <ul>
+  <ul class="list-group">
     {% for leilao in leilao_list %}
       {% if leilao.finalizado and not leilao.confirmaPagamento %}
-        <li>{{leilao.loteLeilao}}</li>
+        <li class="list-group-item">{{leilao.loteLeilao}}</li>
         <button class="btn btn-outline-dark mt-auto"><a style="text-decoration: none; color: black;" href="{% url 'lote:confirm_pagamento' leilao.id %}">Confirmar Pagamento</a></button>
       {% endif %}
     {% endfor %}

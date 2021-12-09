@@ -15,11 +15,11 @@
 {% endif %}
 
 <h4>Informações</h4>
-<ul>
-    <li>Descrição: {{lote.descricao}}</li>
-    <li>Estado: {{lote.estado}}</li>
-    <li>Vendedor: {{lote.vendedor}}</li>
-    <li>Valor minimo entre lances: {{lote.valorMinimoLance}}</li>
+<ul class="list-group">
+    <li class="list-group-item">Descrição: {{lote.descricao}}</li>
+    <li class="list-group-item">Estado: {{lote.estado}}</li>
+    <li class="list-group-item">Vendedor: {{lote.vendedor}}</li>
+    <li class="list-group-item">Valor minimo entre lances: {{lote.valorMinimoLance}}</li>
 </ul>
 <p>Maior Lance:</p>
 {% if leilao.maiorLance %}
