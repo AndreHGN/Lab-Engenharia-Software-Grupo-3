@@ -4,21 +4,21 @@
 
 <h2>Informações do lote</h2>
 
-<ul>
-    <li>Nome: {{object.nome}}</li>
-    <li>Descrição: {{object.descricao}}</li>
-    <li>Estado: {{object.estado}}</li>
-    <li>Valor de reserva: {{object.valorReserva}}</li>
+<ul class="list-group">
+    <li class="list-group-item">Nome: {{object.nome}}</li>
+    <li class="list-group-item">Descrição: {{object.descricao}}</li>
+    <li class="list-group-item">Estado: {{object.estado}}</li>
+    <li class="list-group-item">Valor de reserva: {{object.valorReserva}}</li>
     {% if object.valorMinimoLance %}
-        <li>Valor mínimo: {{object.valorMinimo}}</li>
-        <li>Valor Mínimo por Lance: {{object.valorMinimo}}</li>
-        <li>Início do Leilão: {{object.inicioLeilao}}</li>
-        <li>Fim do leilao: {{object.finalLeilao}}</li>
+        <li class="list-group-item">Valor mínimo: {{object.valorMinimo}}</li>
+        <li class="list-group-item">Valor Mínimo por Lance: {{object.valorMinimo}}</li>
+        <li class="list-group-item">Início do Leilão: {{object.inicioLeilao}}</li>
+        <li class="list-group-item">Fim do leilao: {{object.finalLeilao}}</li>
     {% else %}
-        <li>Valor mínimo: ainda não definido</li>
-        <li>Valor Mínimo por Lance: ainda não definido</li>
-        <li>Início do Leilão: ainda não definido</li>
-        <li>Fim do leilao: ainda não definido</li>
+        <li class="list-group-item">Valor mínimo: ainda não definido</li>
+        <li class="list-group-item">Valor Mínimo por Lance: ainda não definido</li>
+        <li class="list-group-item">Início do Leilão: ainda não definido</li>
+        <li class="list-group-item">Fim do leilao: ainda não definido</li>
     {% endif %}
 </ul>
 

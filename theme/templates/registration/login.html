@@ -30,13 +30,12 @@
         </tr>
         </table>
 
-        <input type="submit" value="login">
+        <input class="btn btn-outline-dark mt-auto" type="submit" value="Login">
         <input type="hidden" name="next" value="{{ next }}">
         </form>
 
 {# Presume que você configurou a vista password_reset em seu URLconf #}
 <!--<p><a href="{% url 'password_reset' %}">Senha perdida?</a></p>-->
 
-<p><a href="#">Senha perdida?</a></p>
 </div>
 {% endblock %}

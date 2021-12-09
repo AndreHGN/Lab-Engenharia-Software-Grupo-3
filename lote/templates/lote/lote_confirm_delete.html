@@ -6,7 +6,7 @@
 
 <form method="post"  id = "tcolor">{% csrf_token %}
     Tem certeza de que deseja deletar "{{ object }}" ?<br/>
-    <input type="submit" value="Delete" />
+    <input class="btn btn-outline-dark mt-auto" type="submit" value="Delete" />
 </form>
 </div>
 {% endblock %}
