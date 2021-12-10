@@ -90,8 +90,8 @@ DATABASES = {
  'NAME': 'Lote',
  'USER': 'admin',
  'PASSWORD': 'pass',
- #'HOST': 'localhost', 
- 'HOST': 'db',
+ 'HOST': 'localhost', 
+ #'HOST': 'db',
  'PORT': '3306',
  }
  } 

@@ -50,7 +50,11 @@ def relatorio_faturamento(request,  dataInicial, dataFinal, template_name='relat
 
     for pagamento in pagamentos:
         labels.append(str(pagamento.dataDeConfirmacao))
-        totalArrecadado += pagamento.valor
+        if (pagamento.lote):
+            totalArrecadado += pagamento.valor
+        else:
+            leilao = get_object_or_404(Leilao, pk=pagamento.leilao)
+            totalArrecadado += (pagamento.valor - leilao.maiorLance)
         economySeries.append(totalArrecadado)
 
     data = economySeries
